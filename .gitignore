@@ -2,4 +2,6 @@ venv/
 __pycache__/
 *.pyc
 .env
-
+diagnose_pdf.py
+fegp110.pdf
+ganitha-prakash/

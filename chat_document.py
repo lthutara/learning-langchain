@@ -1,11 +1,13 @@
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
+from langchain_community.vectorstores import pinecone 
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain.chains import RetrievalQA
 from dotenv import load_dotenv
 import os
 import textwrap
+import re
 
 
 load_dotenv()
@@ -50,10 +52,25 @@ def ask_question(vectorstore, question):
     result = qa_chain.invoke({"query": question})
     return result
 
+# Function to clean extracted text from documents
+def clean_documents(documents):
+    cleaned_docs = []
+    # Regex to find and remove lines that look like file paths or printing metadata
+    # This pattern looks for '.indd' and a date, or 'Reprint'
+    noise_pattern = re.compile(r'^.*\.indd.*\d{2}-\d{2}-\d{4}.*$|^Reprint.*$', re.MULTILINE)
+
+    for doc in documents:
+        cleaned_content = re.sub(noise_pattern, '', doc.page_content)
+        # We create a new Document object to keep the same structure
+        from langchain.schema import Document
+        cleaned_docs.append(Document(page_content=cleaned_content, metadata=doc.metadata))
+    return cleaned_docs
+
 # Main function
 def main(pdf_path, question):
     docs = load_pdf(pdf_path)
-    split_docs = split_text(docs)
+    cleaned_docs = clean_documents(docs)
+    split_docs = split_text(cleaned_docs)
     vectorstore = create_embeddings(split_docs)
     while True:
         question = input("\nAsk a question about the PDF (or type 'exit' to quit): ")
@@ -65,7 +82,6 @@ def main(pdf_path, question):
 
 # Example usage
 if __name__ == "__main__":
-    pdf_path = "/home/lthutara/ai-learnings/langchain-playground/ind_geo.pdf"  # Replace with your PDF path
+    pdf_path = "/home/lthutara/learning-langchain/ganitha-prakash/fegp110.pdf"  # Replace with your PDF path
     question = "What is this document about?"  # Replace with your question
     main(pdf_path, question)
-
