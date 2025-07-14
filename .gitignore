@@ -5,3 +5,4 @@ __pycache__/
 diagnose_pdf.py
 fegp110.pdf
 ganitha-prakash/
+*.faiss/
