@@ -4,10 +4,10 @@ This project is a simple Retrieval-Augmented Generation (RAG) application that a
 
 ## Core Functionality
 
-- **PDF Loading**: Extracts text directly from PDF files.
-- **Text Cleaning**: Pre-processes the extracted text to remove noisy metadata, improving model performance.
-- **Vector Indexing**: Splits the text into chunks and stores them as vector embeddings in a local FAISS store for efficient searching.
-- **Question Answering**: Uses a `RetrievalQA` chain to find relevant document sections and generate answers with an OpenAI model.
+- PDF Loading: Extracts text directly from PDF files.
+- Text Cleaning: Pre-processes the extracted text to remove noisy metadata, improving model performance.
+- Vector Indexing: Splits the text into chunks and stores them as vector embeddings in a local FAISS store for efficient searching.
+- Question Answering: Uses a `RetrievalQA` chain to find relevant document sections and generate answers with an OpenAI model.
 
 ## Setup
 
@@ -24,12 +24,13 @@ This project is a simple Retrieval-Augmented Generation (RAG) application that a
 
 ## How to Use
 
-1. **Configure the PDF Path:**
-   In `chat_document.py`, update the `pdf_path` variable to point to your desired PDF file.
+1. Run source venv/bin/activate.
 
-2. **Run the Application:**
+2. Run the Application:
    ```bash
-   python3 chat_document.py
+   Streamlit run app.py 
    ```
 
-3. The script will process the PDF and then prompt you to ask questions about its content.
+3. Open the link the browser. you can attch the document folder.
+
+4. The app will process the PDF and then prompt you to ask questions about its content.
